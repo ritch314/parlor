@@ -1,36 +1,847 @@
-# This is a basic workflow to help you get started with Actions
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathild's Events Decoration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-name: CI
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            list-style: none;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+        nav a {
+            color: #8B4789;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+        nav a:hover {
+            color: #D4AF37;
+        }
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #8B4789 0%, #D4AF37 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 50px;
+            position: relative;
+            overflow: hidden;
+        }
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+        .hero::before {
+            content: '🎉';
+            position: absolute;
+            font-size: 15em;
+            opacity: 0.1;
+            top: -50px;
+            right: -50px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '🎊';
+            position: absolute;
+            font-size: 12em;
+            opacity: 0.1;
+            bottom: -30px;
+            left: -30px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            color: #fff;
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero .tagline {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 45px;
+            background: #fff;
+            color: #8B4789;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #8B4789;
+            position: relative;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 60px;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s;
+            border-top: 5px solid #8B4789;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(139, 71, 137, 0.2);
+        }
+
+        .service-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .service-title {
+            font-size: 1.8em;
+            color: #8B4789;
+            margin-bottom: 15px;
+        }
+
+        .service-desc {
+            color: #666;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            background: #f5f5f5;
+            height: 300px;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(139, 71, 137, 0.2);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #8B4789 0%, #D4AF37 100%);
+            color: #fff;
+            font-size: 3em;
+        }
+
+        .gallery-placeholder-text {
+            font-size: 0.4em;
+            margin-top: 10px;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(139, 71, 137, 0.9), transparent);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-category {
+            color: #D4AF37;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .gallery-title {
+            color: #fff;
+            font-size: 1.3em;
+            margin-top: 5px;
+        }
+
+        /* Upload Instructions */
+        .upload-instructions {
+            background: #fff9e6;
+            border: 2px dashed #D4AF37;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .upload-instructions h3 {
+            color: #8B4789;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .upload-instructions p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .upload-instructions code {
+            background: #f5f5f5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #8B4789;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Booking Form Section */
+        .booking-form {
+            background: #fff;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #8B4789;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8B4789;
+            box-shadow: 0 0 0 3px rgba(139, 71, 137, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #8B4789 0%, #D4AF37 100%);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(139, 71, 137, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 71, 137, 0.4);
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            border: 2px solid #c3e6cb;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: #fff;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 5em;
+            color: #8B4789;
+            opacity: 0.1;
+        }
+
+        .testimonial-text {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            color: #8B4789;
+            font-weight: 700;
+        }
+
+        .testimonial-event {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(139, 71, 137, 0.2);
+        }
+
+        .contact-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .contact-label {
+            color: #8B4789;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .contact-value {
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background: #8B4789;
+            color: #fff;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .section-title { font-size: 2.2em; }
+            .form-row { grid-template-columns: 1fr; }
+            nav ul { gap: 20px; }
+            nav a { font-size: 0.95em; }
+            .booking-form { padding: 30px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2em; }
+            nav a { font-size: 0.9em; }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#booking">Book Now</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Elegant Events Decoration</h1>
+            <p class="tagline">Creating Unforgettable Moments for Your Special Occasions</p>
+            <a href="#booking" class="cta-button">Book Your Event Today</a>
+        </div>
+    </section>
+
+    <section id="services" class="fade-in">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">We bring your dream events to life with stunning decorations</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">💍</div>
+                <h3 class="service-title">Weddings</h3>
+                <p class="service-desc">
+                    Make your special day truly magical with elegant wedding decorations, 
+                    from ceremony backdrops to reception centerpieces.
+                </p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎂</div>
+                <h3 class="service-title">Birthdays</h3>
+                <p class="service-desc">
+                    Celebrate another year with vibrant, fun birthday decorations 
+                    customized for all ages and themes.
+                </p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👶</div>
+                <h3 class="service-title">Christenings</h3>
+                <p class="service-desc">
+                    Beautiful and serene decorations for your baby's special blessing day, 
+                    creating a peaceful and joyful atmosphere.
+                </p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎓</div>
+                <h3 class="service-title">Graduations</h3>
+                <p class="service-desc">
+                    Celebrate academic achievements with proud and elegant decorations 
+                    that honor this important milestone.
+                </p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💼</div>
+                <h3 class="service-title">Corporate Events</h3>
+                <p class="service-desc">
+                    Professional and sophisticated decorations for business events, 
+                    conferences, and company celebrations.
+                </p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎊</div>
+                <h3 class="service-title">Special Occasions</h3>
+                <p class="service-desc">
+                    Any celebration you can imagine! We create custom decorations 
+                    for anniversaries, reunions, and more.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="fade-in">
+        <h2 class="section-title">Our Work</h2>
+        <p class="section-subtitle">Browse through our beautiful decoration projects</p>
+        
+        <div class="upload-instructions">
+            <h3>📸 How to Add Photos to Your Gallery</h3>
+            <p><strong>Step 1:</strong> Upload your decoration photos to your GitHub repository in an <code>images</code> folder</p>
+            <p><strong>Step 2:</strong> Replace the placeholder image sources below with your actual image paths</p>
+            <p><strong>Step 3:</strong> Change <code>src="images/wedding1.jpg"</code> to match your uploaded filenames</p>
+            <p><strong>Example:</strong> <code>&lt;img src="images/your-photo-name.jpg" class="gallery-img"&gt;</code></p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    💍
+                    <div class="gallery-placeholder-text">Wedding Setup</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-category">Wedding</div>
+                    <div class="gallery-title">Elegant Wedding Reception</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    🎂
+                    <div class="gallery-placeholder-text">Birthday Party</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-category">Birthday</div>
+                    <div class="gallery-title">Colorful Birthday Celebration</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    👶
+                    <div class="gallery-placeholder-text">Christening</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-category">Christening</div>
+                    <div class="gallery-title">Beautiful Christening Setup</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    🎓
+                    <div class="gallery-placeholder-text">Graduation</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-category">Graduation</div>
+                    <div class="gallery-title">Proud Graduate Celebration</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    💼
+                    <div class="gallery-placeholder-text">Corporate Event</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-category">Corporate</div>
+                    <div class="gallery-title">Professional Business Event</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    🎊
+                    <div class="gallery-placeholder-text">Special Event</div>
+                </div>
+                <div class="gallery-overlay">
+                    <div class="gallery-category">Special</div>
+                    <div class="gallery-title">Anniversary Celebration</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="fade-in">
+        <h2 class="section-title">Book Your Event</h2>
+        <p class="section-subtitle">Fill out the form below and we'll get back to you within 24 hours</p>
+        <div class="booking-form">
+            <form id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+63 XXX XXX XXXX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventType">Event Type *</label>
+                        <select id="eventType" name="eventType" required>
+                            <option value="">Select Event Type</option>
+                            <option value="wedding">Wedding</option>
+                            <option value="birthday">Birthday</option>
+                            <option value="christening">Christening</option>
+                            <option value="graduation">Graduation</option>
+                            <option value="corporate">Corporate Event</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Preferred Date *</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="guests">Number of Guests</label>
+                        <input type="number" id="guests" name="guests" placeholder="Approximate number">
+                    </div>
+                    <div class="form-group">
+                        <label for="budget">Budget Range</label>
+                        <select id="budget" name="budget">
+                            <option value="">Select Budget Range</option>
+                            <option value="basic">Basic (₱5,000 - ₱15,000)</option>
+                            <option value="standard">Standard (₱15,000 - ₱30,000)</option>
+                            <option value="premium">Premium (₱30,000 - ₱50,000)</option>
+                            <option value="luxury">Luxury (₱50,000+)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="location">Event Location *</label>
+                    <input type="text" id="location" name="location" required placeholder="Venue or City">
+                </div>
+                <div class="form-group">
+                    <label for="message">Additional Details</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your vision, theme preferences, special requests, or any other details..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Booking Request</button>
+                <div class="success-message" id="successMessage">
+                    ✅ Thank you! Your booking request has been submitted successfully. We'll contact you within 24 hours!
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="testimonials" class="fade-in">
+        <h2 class="section-title">What Our Clients Say</h2>
+        <p class="section-subtitle">Real experiences from our happy customers</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    The decorations for our wedding were absolutely stunning! Every detail was perfect 
+                    and exceeded our expectations. Highly recommended!
+                </p>
+                <div class="testimonial-author">Maria & Juan Santos</div>
+                <div class="testimonial-event">Wedding - June 2025</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    My daughter's christening was beautiful! The decorations were elegant and created 
+                    such a peaceful atmosphere. Thank you for making it special!
+                </p>
+                <div class="testimonial-author">Ana Reyes</div>
+                <div class="testimonial-event">Christening - May 2025</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    Professional, creative, and on time! Our company event looked amazing. 
+                    We'll definitely book again for future events.
+                </p>
+                <div class="testimonial-author">Tech Solutions Inc.</div>
+                <div class="testimonial-event">Corporate Event - April 2025</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="fade-in">
+        <h2 class="section-title">Contact Us</h2>
+        <p class="section-subtitle">Get in touch for inquiries or bookings</p>
+        <div class="contact-info">
+            <div class="contact-item">
+                <div class="contact-icon">📱</div>
+                <div class="contact-label">Phone</div>
+                <div class="contact-value">+63 XXX XXX XXXX</div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">📧</div>
+                <div class="contact-label">Email</div>
+                <div class="contact-value">elegantevents@example.com</div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">📍</div>
+                <div class="contact-label">Location</div>
+                <div class="contact-value">Cebu City, Philippines</div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">📘</div>
+                <div class="contact-label">Facebook</div>
+                <div class="contact-value">@ElegantEventsDecor</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p><strong>Elegant Events Decoration</strong></p>
+        <p>Creating Beautiful Memories Since 2020</p>
+        <p>&copy; 2026 All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Scroll reveal animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Here you can add email service integration like EmailJS, Formspree, etc.
+            // For now, we'll just show success message
+            console.log('Booking Data:', data);
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Reset form
+            this.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000);
+        });
+
+        // Set minimum date to today for date input
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+    </script>
+</body>
+</html>
